@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Karaoke Display</title>
+  <meta charset="utf-8">
+
+<style>
+
+body{
+
+  background-color: black;
+  color: white;
+}
+.next{
+  text-align: center;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="next">
+{% if content == "no_request"   %}
+<h1>Aucune chanson en attente ! Demandez la votre !</h1>
+<h1>192.168.1.121</h1>
+{% else %}
+<h1>Prochaine chanson</h1>
+<div class="media">
+  <div class="media-left">
+    <img src={{ content.img }}  class="media-object" style="width:240px">
+  </div>
+  <div class="media-body">
+    <h1 class="media-heading">{{ content.title }}</h1>
+
+      {% if content.artist %}
+      {% for artist in content.artist.all %}
+      <h2 class="media-heading">
+      {{ artist.name }}
+    </h2>
+      {% endfor %}
+      {% endif %}    {% if content.group %}
+      <h2 class="media-heading">
+      {{ content.group.name }}
+    </h2>
+    <h1>Demandez la votre au 192.168.1.121</h1>
+      {% endif %}
+
+  </div>
+</div>
+</div>
+{% endif %}
+
+
+
+<script>
+setTimeout(function(){
+  location = {% url 'display' %};
+}, 8000);
+</script>
+
+</body>
+</html>

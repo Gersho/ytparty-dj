@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+  {% block morescripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.js"></script>
+
+  <script>
+
+  $(document).ready(function() {
+    let total = 0;
+    //let now = moment();
+    {% for item in data %}
+    //now += moment.duration("{{ item }}");
+    console.log("{{ item }}");
+    console.log(moment.duration("{{ item }}"));
+    total += moment.duration("{{ item }}")._milliseconds;
+
+    {% endfor %}
+    total /= 60000;
+    total = total.toFixed();
+    let time = moment().add(total, 'minutes');
+    console.log(time);
+    $("#display").html(total+"minutes");
+    $("#time").html(time.format("HH:mm"));
+
+    $("#command").html("{{ blocus }}");
+
+  });
+
+   function restart(){
+    console.log("restart");
+    location = {% url 'manager' %} + "?action=restart";
+   }
+
+   function next(){
+     console.log("next");
+     location = {% url 'manager' %} + "?action=next";
+   }
+
+
+   </script>
+
+
+  {% endblock %}
+
+      {% block content %}
+
+
+      <div class="btn btn-primary" onclick="restart()">Restart</div>
+      <div class="btn btn-primary" onclick="next()">Next</div>
+      <h4>Commandes restantes: </h4><h4 id="display"></h4>
+      <h4>Heure de fin de la playlist:</h4>
+      <h4 id="time"></h4>
+
+      <div><span>Les commandes sont:</span><span id="command"></span> </div>
+      {% if blocus == 'open' %}
+
+      <a href="{% url 'manager' %}?blocus=close">Fermer les commandes</a>
+      {% else %}
+      <a href="{% url 'manager' %}?blocus=open">Ouvrir les commandes</a>
+      {% endif %}
+
+      {% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+  {% block morescripts %}
+
+
+  <script>
+
+  function makeUpdate(){
+    let id = "{{ id }}";
+    let img = "{{ img }}";
+    let title = "{{ title }}";
+    let duration = "{{ duration }}";
+    location = {% url 'request'%} + "?id=" + id + "&img=" + img + "&duration=" + duration + "&tag=change"+ "&title=" + title;
+
+    console.log("click click");
+  }
+
+  </script>
+
+   {% endblock %}
+
+
+  {% block content %}
+
+  <h3>Vous avez deja la chanson suivante en attente</h3>
+
+
+    <div>
+      <div class="media">
+        <div class="media-left">
+          <img src={{ oldrequest.img }}  class="media-object" style="width:120px">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ oldrequest.title }}</h4>
+        </div>
+      </div>
+    </div>
+
+  <h3>Souhaitez vous la remplacer par celle ci ?</h3>
+
+    <div>
+      <div class="media">
+        <div class="media-left">
+          <img src={{ img }}  class="media-object" style="width:120px">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{ title }}</h4>
+        </div>
+      </div>
+
+
+
+    <div class="btn btn-primary" onclick="makeUpdate()">Confirmer</div><a href="{% url 'index' %}"><div class="btn btn-primary">Annuler</div></a>
+  </div>
+
+
+  {% endblock %}

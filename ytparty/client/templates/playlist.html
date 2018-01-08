@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+  {% block title %}<title>Karaoke Playlist</title>{% endblock %}
+
+
+
+
+  {% block morescripts %}
+  {% if user.is_authenticated %}
+  <script>
+
+   function remove(requestid){
+     console.log("click");
+     console.log(requestid);
+     location = {% url 'playlist' %} + "?deletion=" + requestid;
+   }
+
+
+
+   </script>
+   {% endif %}
+   {% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+<ul>
+
+  {% for item in data %}
+  <li>
+    <div>
+
+      <div class="media">
+        <div class="media-left">
+          <img src={{ item.img }}  class="media-object" style="width:120px">
+        </div>
+        <div class="media-body">
+          <h3 class="media-heading">{{ item.title }}</h3>
+          {% if user.is_authenticated %}
+          {% if not forloop.counter == 1 %}
+          <div class="btn btn-danger" onclick="remove('{{ item.requestid }}')">X</div>
+          {% endif %}
+          {% endif %}
+          <h4>Position: {{ forloop.counter }}</h4>
+
+
+        </div>
+      </div>
+
+
+    </div>
+  </li>
+  {% endfor %}
+
+
+
+</ul>
+  {% endblock %}

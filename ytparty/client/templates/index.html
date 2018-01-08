@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+
+
+
+{% block content %}
+<h1>Moul6Base Karaoke</h1>
+
+  <p>Bienvenue !  içi vous pouvez choisir la chanson que vous souhaitez chanter.</p>
+
+<h2><a href="{% url 'songs' %}">Le Catalogue:</a></h2>
+
+  <ul>
+    <li><strong>Chansons:</strong> {{ num_song }}</li>
+    <li><strong>Artistes:</strong> {{ num_artist }}</li>
+    <li><strong>Groupes:</strong> {{ num_group }}</li>
+  </ul>
+
+<p>Sinon, vous pouvez effectuer une <a href="{% url 'search' %}">recherche hors catalogue</a></p>
+{% endblock %}

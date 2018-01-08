@@ -1,0 +1,52 @@
+{% extends "base_generic.html" %}
+
+  {% block morescripts %}
+    <script>
+    $(document).ready(function() {
+      $("#sField").keyup(function(event){
+  if(event.keyCode == 13){
+      $("#clickMe").click();
+  }
+  });
+
+    $("#clickMe").on("click", function() {
+      let input =  document.getElementById("sField").value;
+      let prefix =  document.getElementById("sList").value;
+      let search = "" + prefix + " " + input;
+      location = {% url 'search' %} + search;
+     });
+
+    });
+
+
+    </script>
+    {% block evenmorescripts %}{% endblock %}
+  {% endblock %}
+
+{% block content %}
+<h1>Moul6Base Karaoke</h1>
+
+  <p>Bienvenue !  içi vous pouvez chercher la chanson que vous souhaitez chanter.</p>
+
+  <div>
+
+    <select id="sList">
+  <option value="karaoke">karaoke</option>
+  <option value="parole">parole</option>
+  <option value="lyric">lyric</option>
+  <option value="pawol">pawol</option>
+  <option value="playback">playback</option>
+  <option value="">(aucun)</option>
+    </select>
+
+
+
+  <input type="text" id="sField" placeholder="">
+
+<div class="btn btn-secondary" id="clickMe">Search</div>
+
+  </div>
+
+<p>Sinon, vous pouvez consulter le <a href="{% url 'songs' %}">catalogue</a>.</p>
+{% block query %}{% endblock %}
+{% endblock %}

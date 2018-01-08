@@ -1,0 +1,55 @@
+{% extends "base_generic.html" %}
+
+
+  {% block title %}<title>Karaoke</title>{% endblock %}
+
+    {% block morescripts %}
+    <script>
+
+    function makeRequest(){
+      let id = "{{ song.ytid }}";
+      let img = "{{ song.img }}";
+      let title = "{{ song.title }}";
+      let duration = "{{ song.duration }}" ;
+      location = {% url 'request'%} + "?id=" + id + "&img=" + img + "&title=" + title + "&duration=" + duration + "&previous=catalog";
+
+
+    }
+
+    </script>
+
+    {% endblock %}
+
+
+      {% block content %}
+
+      <div>
+
+        <div class="media">
+          <div class="media-left">
+            <img src={{ song.img }}  class="media-object" style="width:120px">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{ song.title }}</h4>
+            {% if song.artist %}
+            {% for artist in song.artist.all %}
+            <h4 class="media-heading">
+            {{ artist.name }}
+            </h4>
+            {% endfor %}
+            {% endif %}    {% if song.group %}
+            <h4 class="media-heading">
+            {{ song.group.name }}
+            </h4>
+            {% endif %}
+
+          </div>
+        </div>
+        <div class="btn btn-primary" onclick="makeRequest()">Confirmer</div><a href="{% url 'index' %}"><div class="btn btn-primary">Annuler</div></a>
+
+      </div>
+
+
+
+
+      {% endblock %}

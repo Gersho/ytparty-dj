@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+
+
+  {% block title %}<title>Karaoke</title>{% endblock %}
+
+    {% block morescripts %}
+    <script>
+
+    function makeRequest(){
+      let id = "{{ id }}";
+      let img = "{{ img }}";
+      let title = "{{ title }}";
+      let duration = {% if previous == 'query' %}"{{ data.items.0.contentDetails.duration }}"{% else %} "{{ data }}"{% endif %};
+      location = {% url 'request'%} + "?id=" + id + "&img=" + img + "&duration=" + duration + "&title=" + title;
+
+
+    }
+
+    </script>
+
+    {% endblock %}
+
+
+      {% block content %}
+
+      <div>
+
+        <div class="media">
+          <div class="media-left">
+            <img src={{ img }}  class="media-object" style="width:120px">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{ title }}</h4>
+
+
+          </div>
+        </div>
+        <div class="btn btn-primary" onclick="makeRequest()">Confirmer</div><a href="{% url 'search' %}"><div class="btn btn-primary">Annuler</div></a>
+
+      </div>
+
+
+
+
+      {% endblock %}

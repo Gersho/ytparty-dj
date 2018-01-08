@@ -1,0 +1,54 @@
+{% extends "base_generic.html" %}
+
+
+
+
+{% block content %}
+  <h1>{{ artist.name }}</h1>
+
+
+  {% if artist.group_set.all %}
+  {% for group in artist.group_set.all %}
+  <p>Membre du groupe : <a href="{% url 'group-detail' group.id %}">{{ group.name }}</a></p>
+  {% endfor %}
+  {% endif %}
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h2>Chansons:</h2>
+
+
+
+    <ul>
+
+      {% for song in artist.song_set.all %}
+      <li>
+        <div>
+
+          <div class="media">
+            <div class="media-left">
+              <img src={{ song.img }}  class="media-object" style="width:120px">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">{{ song.title }}</h4>
+              <a href="{% url 'song-detail' song.id %}"><div class="btn btn-primary">Choisir</div></a>
+
+            </div>
+          </div>
+
+
+        </div>
+      </li>
+      {% endfor %}
+
+
+
+    </ul>
+
+
+
+
+
+
+
+  </div>
+{% endblock %}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>Karaoke Display</title>
+  <meta charset="utf-8">
+
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: black !important;
+  }
+
+  iframe{
+    width: 95vw;
+    height: 95vh;
+
+  }
+
+  #mydiv{
+
+  }
+  #myframe{
+
+  }
+
+  </style>
+
+  <script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.js"></script>
+
+
+</head>
+
+<body>
+  <script>
+        $(document).ready(function() {
+
+
+          $('#myframe').load(function(){
+
+
+
+            console.log("{{ song.duration }}");
+          var songDuration =  moment.duration("{{ song.duration }}");
+          console.log(songDuration);
+          setTimeout(function(){
+
+            location = {% url 'display' %} + "?action=next";
+
+          }, songDuration._milliseconds);
+
+          setInterval(function(){
+
+            $.getJSON( "{% url 'display-update' %}", function( data ) {
+              console.log("getting fresh orders");
+              console.log(data.string)
+
+              switch(data.string){
+                case "restart":
+                   location = {% url 'display' %};
+                break;
+                case "next":
+                location = {% url 'display' %} + "?action=next";
+                break;
+
+              }
+
+
+            });
+
+          },3000);
+
+
+          });
+
+        });
+   </script>
+
+<div id="mydiv">
+  <!--
+<iframe id="myframe" src="https://www.youtube.com/watch?v={{ song.ytid }}" frameborder="0" gesture="media" allowfullscreen></iframe>
+  -->
+<iframe id="myframe" src="https://www.youtube.com/tv#/watch?v={{ song.ytid }}" frameborder="0" gesture="media" allowfullscreen></iframe>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+firefox 57+:
+https://addons.mozilla.org/en-US/firefox/addon/ignore-x-frame-options-ff-57/
+
+
+set environmental variables:
+append env-var.txt to the virtual env activate 
+
+#django settings.py SECRET_KEY and DEBUG settings
+export YTPARTY_SECRET_KEY =
+export YTPARTY_DEBUG =
+#youtube search API key
+export YTPARTY_API_KEY =
+

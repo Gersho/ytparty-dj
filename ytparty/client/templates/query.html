@@ -1,0 +1,57 @@
+{% extends "search.html" %}
+
+{% block evenmorescripts %}
+
+  <script>
+
+
+      function makeRequest(item){
+
+        let payload = {
+          id: item.id.videoId,
+          title: item.snippet.title,
+          img: item.snippet.thumbnails.default.url
+        };
+
+        location = {% url 'choice'%} + "?" + "id="+item.id.videoId+"&title="+item.snippet.title+"&img="+item.snippet.thumbnails.default.url+"&previous=query";
+      }
+
+
+</script>
+{% endblock %}
+
+
+{% block query %}
+<p>Résultats de la recherche :<strong> {{ query }}</strong></p>
+
+  <ul>
+
+    {% for item in data.items %}
+    <li>
+      <div>
+
+        <div class="media">
+          <div class="media-left">
+            <img src={{ item.snippet.thumbnails.default.url }}  class="media-object" style="width:120px">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{ item.snippet.title }}</h4>
+            <div class="btn btn-primary" onclick="makeRequest({{ item }})">Choisir</div>
+            <p>{{ item.snippet.description }}</p>
+          </div>
+        </div>
+
+
+      </div>
+    </li>
+    {% endfor %}
+
+
+
+  </ul>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+
+<h2>Votre requete a bien été reçue</h2>
+
+<div>
+  <div class="media">
+    <div class="media-left">
+      <img src={{ img }}  class="media-object" style="width:120px">
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{ title }}</h4>
+    </div>
+  </div>
+
+
+  <a href="{% url 'playlist' %}"><div class="btn btn-primary">Voir la Playlist</div></a>
+
+
+{% endblock %}
