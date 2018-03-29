@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^catalog/artist/(?P<pk>\d+)$', views.ArtistDetailView.as_view(), name='artist-detail'),
     url(r'^catalog/group/(?P<pk>\d+)$', views.GroupDetailView.as_view(), name='group-detail'),
     url(r'^catalog/song/(?P<pk>\d+)$', views.SongDetailView.as_view(), name='song-detail'),
+    url(r'^addcatalog/$', views.addcatalog, name='addcatalog'),
 ]

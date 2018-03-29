@@ -9,6 +9,7 @@ from django.http import JsonResponse
 import random
 import os
 from django.contrib.auth.decorators import login_required
+from .forms import AddCatalogForm
 
 
 def index(request):
@@ -271,6 +272,70 @@ def playlist(request):
         'playlist.html',
         context={'data':data},
     )
+
+
+def addcatalog(request):
+    if request.method == 'POST':
+        form = AddCatalogForm(request.POST)
+        if form.is_valid():
+            newsong = Song(
+                        title=form.cleaned_data['title'],
+                        ytid=form.cleaned_data['ytid'],
+                        artist=form.cleaned_data['artist'],
+                        group=form.cleaned_data['group'],
+                        duration=form.cleaned_data['duration'],
+                        img=form.cleaned_data['img']
+                        )
+            newsong.save()
+
+            return render(
+                request,
+                'temp.html',
+            )
+
+    else:
+        title = request.GET.get('title','')
+        img = request.GET.get('img','')
+        ytid = request.GET.get('ytid','')
+        duration = request.GET.get('duration','')
+
+        form = AddCatalogForm(initial={'title': title,'img':img,'ytid':ytid,'duration':duration,'artist':None,'group':None})
+
+    return render(
+        request,
+        'addcatalog.html',
+        {'form': form},
+    )
+
+
+'''
+def renew_book_librarian(request, pk):
+    book_inst=get_object_or_404(BookInstance, pk = pk)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = RenewBookForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            book_inst.due_back = form.cleaned_data['renewal_date']
+            book_inst.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('all-borrowed') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
+
+    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+
+'''
+
 
 
 class ArtistListView(generic.ListView):
