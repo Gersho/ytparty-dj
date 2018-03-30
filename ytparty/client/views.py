@@ -289,6 +289,9 @@ def addcatalog(request):
                         img=form.cleaned_data['img'],
                         )
             newsong.save()
+            newsong.artist = form.cleaned_data['artist']
+            newsong.group = form.cleaned_data['group']
+            newsong.save()
 
             return HttpResponseRedirect(reverse('songs') )
 

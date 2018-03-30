@@ -21,7 +21,6 @@ urlpatterns = [
     url(r'^catalog/group/(?P<pk>\d+)$', views.GroupDetailView.as_view(), name='group-detail'),
     url(r'^catalog/song/(?P<pk>\d+)$', views.SongDetailView.as_view(), name='song-detail'),
     url(r'^addcatalog/$', views.addcatalog, name='addcatalog'),
-    #url(r'^editcatalog/$', views.addcatalog, name='editcatalog'),
     url(r'^create/artist/', views.ArtistCreate.as_view(), name='artist-create'),
     url(r'^create/group/', views.GroupCreate.as_view(), name='group-create'),
     url(r'^create/song/', views.SongCreate.as_view(), name='song-create'),
