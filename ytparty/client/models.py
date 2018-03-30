@@ -28,6 +28,11 @@ class Artist(models.Model):
     def get_absolute_url(self):
         return reverse('artist-detail', args=[str(self.id)])
 
+    def get_update_url(self):
+        return reverse('artist-update', args=[str(self.id)])
+
+    def get_delete_url(self):
+        return reverse('artist-delete', args=[str(self.id)])
 
 class Group(models.Model):
     name = models.CharField(max_length=50, help_text="Entrez un nom de groupe.")
@@ -42,7 +47,11 @@ class Group(models.Model):
     def get_absolute_url(self):
         return reverse('group-detail', args=[str(self.id)])
 
+    def get_update_url(self):
+        return reverse('group-update', args=[str(self.id)])
 
+    def get_delete_url(self):
+        return reverse('group-delete', args=[str(self.id)])
 
 
 class Song(models.Model):
@@ -64,6 +73,12 @@ class Song(models.Model):
 
     def get_absolute_url(self):
         return reverse('song-detail', args=[str(self.id)])
+
+    def get_update_url(self):
+        return reverse('song-update', args=[str(self.id)])
+
+    def get_delete_url(self):
+        return reverse('song-delete', args=[str(self.id)])
 
 
 class WaitList(models.Model):

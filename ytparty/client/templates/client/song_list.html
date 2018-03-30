@@ -1,5 +1,7 @@
 {% extends "base_generic.html" %}
 
+
+
 {% block content %}
     <h1>Liste des Chansons:</h1>
 
@@ -14,6 +16,17 @@
         {{ artist.name }}
         {% endfor %}
         {% endif %}    {% if song.group %} {{ song.group.name }} {% endif %}
+
+
+        {% if user.is_authenticated %}
+        <a href="{{ song.get_update_url }}">
+               <span class="btn btn-primary">Modifier</span></a>
+        <a href="{{ song.get_delete_url }}">
+                 <span class="btn btn-danger">X</span></a>
+
+        {% endif %}
+
+
 
       </li>
       {% endfor %}

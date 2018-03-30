@@ -3,6 +3,7 @@ from .models import Artist, Genre, Language, Song, Group, WaitList, Actions, Blo
 import requests #needs pip install
 import json
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.http import JsonResponse
@@ -10,7 +11,8 @@ import random
 import os
 from django.contrib.auth.decorators import login_required
 from .forms import AddCatalogForm
-
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 def index(request):
     if(Blocus.objects.all().exists() and not request.user.is_authenticated):
@@ -273,7 +275,7 @@ def playlist(request):
         context={'data':data},
     )
 
-
+@login_required
 def addcatalog(request):
     if request.method == 'POST':
         form = AddCatalogForm(request.POST)
@@ -281,17 +283,14 @@ def addcatalog(request):
             newsong = Song(
                         title=form.cleaned_data['title'],
                         ytid=form.cleaned_data['ytid'],
-                        artist=form.cleaned_data['artist'],
-                        group=form.cleaned_data['group'],
+                        #artist=form.cleaned_data['artist'],
+                        #group=form.cleaned_data['group'],
                         duration=form.cleaned_data['duration'],
-                        img=form.cleaned_data['img']
+                        img=form.cleaned_data['img'],
                         )
             newsong.save()
 
-            return render(
-                request,
-                'temp.html',
-            )
+            return HttpResponseRedirect(reverse('songs') )
 
     else:
         title = request.GET.get('title','')
@@ -299,7 +298,7 @@ def addcatalog(request):
         ytid = request.GET.get('ytid','')
         duration = request.GET.get('duration','')
 
-        form = AddCatalogForm(initial={'title': title,'img':img,'ytid':ytid,'duration':duration,'artist':None,'group':None})
+        form = AddCatalogForm(initial={'title': title,'img':img,'ytid':ytid,'duration':duration})
 
     return render(
         request,
@@ -308,35 +307,49 @@ def addcatalog(request):
     )
 
 
-'''
-def renew_book_librarian(request, pk):
-    book_inst=get_object_or_404(BookInstance, pk = pk)
-
-    # If this is a POST request then process the Form data
-    if request.method == 'POST':
-
-        # Create a form instance and populate it with data from the request (binding):
-        form = RenewBookForm(request.POST)
-
-        # Check if the form is valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            book_inst.due_back = form.cleaned_data['renewal_date']
-            book_inst.save()
-
-            # redirect to a new URL:
-            return HttpResponseRedirect(reverse('all-borrowed') )
-
-    # If this is a GET (or any other method) create the default form.
-    else:
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date,})
-
-    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
-
-'''
 
 
+class ArtistCreate(CreateView):
+    model = Artist
+    fields = '__all__'
+    success_url = reverse_lazy('artists')
+
+class ArtistUpdate(UpdateView):
+    model = Artist
+    fields = '__all__'
+    success_url = reverse_lazy('artists')
+
+class ArtistDelete(DeleteView):
+    model = Artist
+    success_url = reverse_lazy('artists')
+
+class GroupCreate(CreateView):
+    model = Group
+    fields = '__all__'
+    success_url = reverse_lazy('groups')
+
+class GroupUpdate(UpdateView):
+    model = Group
+    fields = '__all__'
+    success_url = reverse_lazy('groups')
+
+class GroupDelete(DeleteView):
+    model = Group
+    success_url = reverse_lazy('groups')
+
+class SongCreate(CreateView):
+    model = Song
+    exclude = ['genre','language']
+    success_url = reverse_lazy('songs')
+
+class SongUpdate(UpdateView):
+    model = Song
+    fields = ['title','ytid','artist','group','duration','img']
+    success_url = reverse_lazy('songs')
+
+class SongDelete(DeleteView):
+    model = Song
+    success_url = reverse_lazy('songs')
 
 class ArtistListView(generic.ListView):
     model = Artist
@@ -346,7 +359,6 @@ class GroupListView(generic.ListView):
 
 class SongListView(generic.ListView):
     model = Song
-
 
 class ArtistDetailView(generic.DetailView):
     model = Artist
