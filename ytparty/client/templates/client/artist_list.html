@@ -1,7 +1,16 @@
 {% extends "base_generic.html" %}
 
+
+
+
 {% block content %}
     <h1>Liste des Artistes:</h1>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'artist-create' %}">
+           <div class="btn btn-primary">Ajouter artiste</div>
+    </a>
+    {% endif %}
 
     {% if artist_list %}
     <ul>
@@ -9,6 +18,13 @@
       {% for artist in artist_list %}
       <li>
         <a href="{{ artist.get_absolute_url }}">{{ artist.name }}</a>
+        {% if user.is_authenticated %}
+        <a href="{{ artist.get_update_url }}">
+               <span class="btn btn-primary">Modifier</span></a>
+        <a href="{{ artist.get_delete_url }}">
+                 <span class="btn btn-danger">X</span></a>
+
+        {% endif %}
       </li>
       {% endfor %}
 

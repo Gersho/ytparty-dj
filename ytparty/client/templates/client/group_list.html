@@ -1,7 +1,15 @@
 {% extends "base_generic.html" %}
 
+
+
 {% block content %}
     <h1>Liste des Groupes:</h1>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'group-create' %}">
+           <div class="btn btn-primary">Ajouter groupe</div>
+    </a>
+    {% endif %}
 
     {% if group_list %}
     <ul>
@@ -9,6 +17,14 @@
       {% for group in group_list %}
       <li>
         <a href="{{ group.get_absolute_url }}">{{ group.name }}</a>
+
+        {% if user.is_authenticated %}
+        <a href="{{ group.get_update_url }}">
+               <span class="btn btn-primary">Modifier</span></a>
+        <a href="{{ group.get_delete_url }}">
+                 <span class="btn btn-danger">X</span></a>
+
+        {% endif %}
       </li>
       {% endfor %}
 
