@@ -86,12 +86,6 @@ def manager(request):
 
 
 def update(request):
-    if(Blocus.objects.all().exists() and not request.user.is_authenticated):
-        return render(
-            request,
-            'closed.html',
-        )
-
     if(Actions.objects.all().exists()):
         order = Actions.objects.latest('time')
         name = order.name
