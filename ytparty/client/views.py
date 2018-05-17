@@ -255,18 +255,24 @@ def request(request):
 def playlist(request):
     if( WaitList.objects.all().exists()):
         data = WaitList.objects.all()
+        durations = []
+        for item in data:
+            durations.append(item.duration)
     else:
         data = ""
+        durations = ""
 
     deletion = request.GET.get('deletion','')
     if(not deletion == ''):
         remove = WaitList.objects.get(requestid__exact=deletion)
         remove.delete()
 
+
+
     return render(
         request,
         'playlist.html',
-        context={'data':data},
+        context={'data':data, 'durations':durations},
     )
 
 @login_required

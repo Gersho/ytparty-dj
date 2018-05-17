@@ -11,8 +11,7 @@
 
     $("#clickMe").on("click", function() {
       let input =  document.getElementById("sField").value;
-      let prefix =  document.getElementById("sList").value;
-      let search = "" + prefix + " " + input;
+      let search = "" + input;
       location = {% url 'search' %} + search;
      });
 
@@ -24,21 +23,11 @@
   {% endblock %}
 
 {% block content %}
-<h1>Moul6Base Karaoke</h1>
+<h1>Moul6Base DJukebox</h1>
 
-  <p>Bienvenue !  içi vous pouvez chercher la chanson que vous souhaitez chanter.</p>
+  <p>Bienvenue !  içi vous pouvez chercher la chanson que vous souhaitez écouter.</p>
 
   <div>
-
-    <select id="sList">
-  <option value="karaoke">karaoke</option>
-  <option value="parole">parole</option>
-  <option value="lyric">lyric</option>
-  <option value="pawol">pawol</option>
-  <option value="playback">playback</option>
-  <option value="">(aucun)</option>
-    </select>
-
 
 
   <input type="text" id="sField" placeholder="">
